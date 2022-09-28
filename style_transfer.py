@@ -1,7 +1,6 @@
 import tensorflow_hub as hub
 import tensorflow as tf
 import numpy as np
-import cv2
 import streamlit as st 
 import functools
 import os
