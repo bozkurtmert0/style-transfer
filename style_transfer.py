@@ -17,6 +17,15 @@ def load_image(img_path):
     img = tf.image.convert_image_dtype(img, tf.float32)
     img = img[tf.newaxis, :]
     return img
+
+
+def load_image_url(img_url):
+    img_path = tf.keras.utils.get_file(os.path.basename(img_url)[-128:], img_url)
+    img = tf.io.read_file(img_path)
+    img = tf.image.decode_image(img, channels=3)
+    img = tf.image.convert_image_dtype(img, tf.float32)
+    img = img[tf.newaxis, :]
+    return img
 #---------------------------------------------------------------------------
 style_names = ['1',
                '2',
@@ -59,8 +68,8 @@ with col_style:
         
 if st.button('Apply',key=11):
         option = int(option)
-        urllib.request.urlretrieve(content_url, '{content_url}.jpg')
-        content = load_image('{content_url}.jpg')
+        content = load_image_url(content_url)
+        #content = load_image('{content_url}.jpg')
         style_image = load_image(style_path[option])
         stylized_image = model(tf.constant(content), tf.constant(style_image))[0]
     
